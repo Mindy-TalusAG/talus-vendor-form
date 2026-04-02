@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalusAg — New Vendor Request</title>
+  <style>
+    :root {
+      --ga:#639922; --gd:#3B6D11; --gl:#EAF3DE;
+      --bg:#ffffff; --bg2:#f7f7f5; --bg3:#f0efeb;
+      --tx1:#1a1a1a; --tx2:#5a5a5a; --tx3:#909090;
+      --bd1:rgba(0,0,0,.35); --bd2:rgba(0,0,0,.18); --bd3:rgba(0,0,0,.10);
+      --info-bg:#e8f4fd; --info-bd:#90c5ee; --info-tx:#1255a0;
+      --warn-bg:#fff9e6; --warn-bd:#f0c040; --warn-tx:#7a4f00;
+      --dng-bg:#fff0f0;  --dng-bd:#f0a0a0;  --dng-tx:#b91c1c;
+      --suc-bg:#f0fdf4;  --suc-bd:#86efac;  --suc-tx:#166534;
+      --r-md:8px; --r-lg:12px;
+      --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font);background:var(--bg3);color:var(--tx1);min-height:100vh;padding:2rem 1rem 4rem;}
+    input,select,textarea,button{font-family:inherit;font-size:14px;}
+    input[type=text],input[type=email],input[type=tel],input[type=url],textarea,select{
+      width:100%;padding:8px 10px;border:0.5px solid var(--bd1);border-radius:var(--r-md);
+      background:var(--bg);color:var(--tx1);outline:none;transition:border-color .15s;
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--ga);box-shadow:0 0 0 3px rgba(99,153,34,.15);}
+    textarea{resize:vertical;min-height:80px;line-height:1.5;}
+    a{color:var(--gd);}
+    #wrap{max-width:680px;margin:0 auto;}
+    .brand{margin-bottom:1.5rem;}
+    .brand img{height:38px;width:auto;display:block;margin-bottom:6px;}
+    .brand-sub{font-size:13px;font-weight:500;color:var(--tx2);}
+    .prog{display:flex;gap:4px;margin-bottom:1.25rem;}
+    .ps{height:4px;flex:1;border-radius:2px;background:var(--bd3);}
+    .ps.done{background:var(--ga);opacity:.5;}.ps.act{background:var(--ga);}
+    .eyb{font-size:11px;font-weight:600;color:var(--tx3);letter-spacing:.07em;margin-bottom:4px;}
+    .stit{font-size:20px;font-weight:600;color:var(--tx1);margin-bottom:4px;}
+    .ssub{font-size:13px;color:var(--tx2);margin-bottom:1.25rem;line-height:1.5;}
+    .card{background:var(--bg);border:0.5px solid var(--bd3);border-radius:var(--r-lg);padding:1.25rem;margin-bottom:12px;}
+    .slbl{font-size:11px;font-weight:600;color:var(--tx3);letter-spacing:.07em;text-transform:uppercase;border-bottom:0.5px solid var(--bd3);padding-bottom:6px;margin-bottom:12px;}
+    .fg{margin-bottom:12px;}.fg:last-child{margin-bottom:0;}
+    .fl{display:block;font-size:13px;font-weight:500;color:var(--tx2);margin-bottom:4px;}
+    .req{color:var(--dng-tx);margin-left:2px;}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .err{color:var(--dng-tx);font-size:12px;margin-top:4px;}
+    .info-b{background:var(--info-bg);border:0.5px solid var(--info-bd);border-radius:var(--r-md);padding:10px 13px;font-size:13px;color:var(--info-tx);line-height:1.6;margin-top:10px;}
+    .warn-b{background:var(--warn-bg);border:0.5px solid var(--warn-bd);border-radius:var(--r-md);padding:10px 13px;font-size:13px;color:var(--warn-tx);line-height:1.6;margin-top:10px;}
+    .dng-b {background:var(--dng-bg); border:0.5px solid var(--dng-bd); border-radius:var(--r-md);padding:10px 13px;font-size:13px;color:var(--dng-tx); line-height:1.6;margin-top:10px;}
+    .suc-b {background:var(--suc-bg); border:0.5px solid var(--suc-bd); border-radius:var(--r-md);padding:10px 13px;font-size:13px;color:var(--suc-tx); line-height:1.6;margin-top:10px;}
+    .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .tcard{border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:14px;cursor:pointer;transition:all .12s;}
+    .tcard:hover{border-color:var(--ga);}
+    .tcard.sel{border-color:var(--ga);background:var(--gl);}
+    .tcard input[type=radio]{display:none;}
+    .tcttl{font-size:14px;font-weight:600;color:var(--tx1);margin-bottom:4px;}
+    .tcard.sel .tcttl{color:var(--gd);}
+    .tcsub{font-size:12px;color:var(--tx2);line-height:1.4;}
+    .pill{display:inline-flex;align-items:center;padding:7px 14px;border:0.5px solid var(--bd2);border-radius:99px;cursor:pointer;font-size:13px;color:var(--tx2);transition:all .12s;margin:3px;}
+    .pill:hover{border-color:var(--ga);}
+    .pill.on{border-color:var(--ga);background:var(--gl);color:var(--gd);font-weight:500;}
+    .ucard{border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:14px;cursor:pointer;transition:all .12s;}
+    .ucard:hover{border-color:var(--bd1);}
+    .ucard.sn{border-color:var(--ga);background:var(--gl);}
+    .ucard.su{border-color:var(--dng-bd);background:var(--dng-bg);}
+    .ucard input[type=radio]{display:none;}
+    .ucttl{font-size:14px;font-weight:600;color:var(--tx1);}
+    .ucard.sn .ucttl{color:var(--gd);}
+    .ucard.su .ucttl{color:var(--dng-tx);}
+    .ucsub{font-size:12px;color:var(--tx2);margin-top:4px;}
+    .uz{border:1.5px dashed var(--bd2);border-radius:var(--r-md);padding:14px;text-align:center;cursor:pointer;transition:all .12s;}
+    .uz:hover{border-color:var(--ga);background:var(--gl);}
+    .uz input[type=file]{display:none;}
+    .uztxt{font-size:13px;color:var(--tx2);}
+    .uztxt strong{color:var(--gd);}
+    .fchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+    .fchip{display:inline-flex;align-items:center;gap:5px;background:var(--bg2);border:0.5px solid var(--bd3);border-radius:99px;padding:3px 10px;font-size:12px;}
+    .fx{cursor:pointer;color:var(--dng-tx);font-size:14px;line-height:1;}
+    .w8box{background:var(--bg2);border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:14px;margin-bottom:10px;}
+    .w8box-ttl{font-size:13px;font-weight:600;color:var(--tx1);margin-bottom:8px;}
+    .w8-steps{list-style:none;margin:0 0 12px;}
+    .w8-steps li{font-size:13px;color:var(--tx2);padding:3px 0 3px 22px;position:relative;line-height:1.5;}
+    .w8-steps li::before{content:attr(data-n);position:absolute;left:0;color:var(--ga);font-weight:600;}
+    .w8-link{display:inline-flex;align-items:center;gap:6px;background:var(--gl);border:0.5px solid var(--ga);border-radius:var(--r-md);padding:8px 14px;font-size:13px;font-weight:500;color:var(--gd);text-decoration:none;}
+    .w8-link:hover{background:var(--ga);color:#fff;}
+    .w8-note{font-size:12px;color:var(--tx3);margin-top:8px;line-height:1.6;}
+    .samebox{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg2);border:0.5px solid var(--bd3);border-radius:var(--r-md);cursor:pointer;font-size:13px;color:var(--tx2);margin-bottom:12px;}
+    .samebox input{accent-color:var(--ga);width:15px;height:15px;flex-shrink:0;}
+    .samebox.checked{background:var(--gl);border-color:var(--ga);color:var(--gd);}
+    .nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;}
+    .btnp{background:var(--ga);color:#fff;border:none;padding:10px 24px;border-radius:var(--r-md);font-size:14px;font-weight:600;cursor:pointer;transition:background .12s;}
+    .btnp:hover:not(:disabled){background:var(--gd);}
+    .btnp:disabled{background:#aaa;cursor:not-allowed;}
+    .btnb{background:transparent;border:0.5px solid var(--bd2);padding:10px 18px;border-radius:var(--r-md);font-size:14px;cursor:pointer;color:var(--tx2);}
+    .btnb:hover:not(:disabled){background:var(--bg2);}
+    .rrow{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:0.5px solid var(--bd3);gap:8px;}
+    .rrow:last-child{border-bottom:none;}
+    .rlbl{color:var(--tx2);flex:0 0 44%;}
+    .rval{color:var(--tx1);text-align:right;word-break:break-word;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;}
+    .bw{background:var(--warn-bg);color:var(--warn-tx);}
+    .bd{background:var(--dng-bg);color:var(--dng-tx);}
+    .bo{background:var(--suc-bg);color:var(--suc-tx);}
+    .sring{width:52px;height:52px;border-radius:50%;border:2px solid var(--ga);background:var(--gl);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:22px;color:var(--gd);}
+    .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+    .size-warn{font-size:11px;color:var(--tx3);margin-top:5px;}
+    .autofilled{background:var(--gl) !important;border-color:var(--ga) !important;}
+    .hint{font-size:11px;color:var(--tx3);margin-top:4px;line-height:1.4;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    @media(max-width:520px){.frow,.tgrid{grid-template-columns:1fr;}.brand-name{font-size:14px;}}
+  </style>
+</head>
+<body>
+<div id="wrap">
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="TalusAg" />
+    <div class="brand-sub">Vendor Onboarding Request</div>
+  </div>
+  <div id="va"></div>
+</div>
+
+<script>
+const CATS=['Goods / Physical products','Equipment / Tools / Hardware','Software / SaaS / Technology','Professional services','Construction / Site services','Other'];
+
+const S={
+  step:1,total:6,errors:{},sending:false,sendError:false,
+  yourName:'',yourEmail:'',yourDept:'',mgrName:'',mgrEmail:'',mgrEmailAutoFilled:false,mgrDirectoryMode:false,mgrUsers:[],mgrUsersLoaded:false,mgrSearch:'',mgrDropOpen:false,
+  vendorName:'',vendorSite:'',vendorCats:[],vendorCatOther:'',vendorScope:'',vendorContext:'',
+  vtype:'',
+  usA1:'',usA2:'',usCity:'',usSt:'',usZip:'',
+  intlA1:'',intlA2:'',intlCity:'',intlRegion:'',intlPostal:'',intlCountry:'',
+  corpName:'',corpEmail:'',corpPhone:'',sameContact:false,
+  finName:'',finEmail:'',finPhone:'',
+  w9:[],w8:[],bizCert:[],contract:[],addl:[],
+  
+  terms:'',otherTerms:'',urgency:'',urgencyNote:'',comments:'',
+  submitted:false
+};
+
+function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function sync(){
+  document.querySelectorAll('#va [data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    if(!k||el.type==='radio'||el.type==='file'||el.type==='checkbox')return;
+    S[k]=el.value;
+  });
+}
+
+
+/* Manager fields — update state and DOM directly, never call render() on keystroke.
+   Fixes the "one letter then loses focus" bug. render() only fires on blur/navigation. */
+function onMgrNameInput(val){
+  S.mgrName=val;
+  // DOM-direct auto-suggest (no re-render)
+  var parts=val.trim().toLowerCase().split(/\s+/);
+  var emailEl=document.getElementById('mgrEmailField');
+  if(emailEl&&(S.mgrEmailAutoFilled||!S.mgrEmail)){
+    if(parts[0]){
+      var sug=parts[0]+'@talusag.com';
+      S.mgrEmail=sug;S.mgrEmailAutoFilled=true;
+      emailEl.value=sug;emailEl.classList.add('autofilled');
+      var h=document.getElementById('mgrHint');if(h)h.style.display='';
+    } else {
+      S.mgrEmail='';S.mgrEmailAutoFilled=false;
+      emailEl.value='';emailEl.classList.remove('autofilled');
+      var h=document.getElementById('mgrHint');if(h)h.style.display='none';
+    }
+  }
+  delete S.errors.mgrName;
+}
+function onMgrEmailInput(val){
+  S.mgrEmail=val;S.mgrEmailAutoFilled=false;
+  var el=document.getElementById('mgrEmailField');
+  if(el)el.classList.remove('autofilled');
+  var h=document.getElementById('mgrHint');if(h)h.style.display='none';
+  delete S.errors.mgrEmail;
+}
+
+/* Directory search — also DOM-direct for the search field, render() on selection */
+function onMgrSearch(val){
+  S.mgrSearch=val;
+  S.mgrDropOpen=val.length>0;
+  if(S.mgrName&&val!==S.mgrName){S.mgrName='';S.mgrEmail='';}
+  // Re-render needed here because the dropdown list content changes
+  render();
+}
+function selectMgr(name,email,title){
+  S.mgrName=name;S.mgrEmail=email;S.mgrSearch=name;S.mgrDropOpen=false;
+  delete S.errors.mgrName;delete S.errors.mgrEmail;
+  render();
+}
+function filteredManagers(){
+  if(!S.mgrSearch)return[];
+  var q=S.mgrSearch.toLowerCase();
+  return S.mgrUsers.filter(function(u){
+    return u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q);
+  }).slice(0,8);
+}
+async function loadDirectory(){
+  if(S.mgrUsersLoaded)return;
+  S.mgrUsersLoaded=true; // set immediately to prevent double-fetch
+  try{
+    var res=await fetch('/.netlify/functions/get-users');
+    var data=await res.json();
+    if(data.configured&&data.users&&data.users.length){
+      S.mgrUsers=data.users;S.mgrDirectoryMode=true;
+    }
+  }catch(e){/* fail silently */}
+  render();
+}
+
+function upd(k,v){sync();S[k]=v;delete S.errors[k];render();}
+function af(k,fl){S[k]=[...S[k],...Array.from(fl)];render();}
+function rmf(k,i){S[k]=S[k].filter((_,j)=>j!==i);render();}
+function toggleCat(cat){sync();S.vendorCats=S.vendorCats.includes(cat)?S.vendorCats.filter(c=>c!==cat):[...S.vendorCats,cat];render();}
+function toggleSame(){sync();S.sameContact=!S.sameContact;render();}
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+function nxt(){
+  sync();
+  const e=val(S.step);
+  if(Object.keys(e).length){S.errors=e;render();scrollTop();return;}
+  S.errors={};S.step++;render();scrollTop();
+}
+function bk(){sync();S.step--;S.errors={};render();scrollTop();}
+
+/* ── FILE HANDLING ── */
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.readAsDataURL(file);
+    r.onload=()=>resolve(r.result.split(',')[1]);
+    r.onerror=reject;
+  });
+}
+
+function totalFileSize(){
+  return [...S.w9,...S.w8,...S.bizCert,...S.contract,...S.addl]
+    .reduce((sum,f)=>sum+f.size,0);
+}
+
+function fmtSize(bytes){
+  if(bytes<1024*1024) return `${(bytes/1024).toFixed(0)} KB`;
+  return `${(bytes/(1024*1024)).toFixed(1)} MB`;
+}
+
+/* ── SUBMIT ── */
+async function sub(){
+  sync();
+  S.sending=true;
+  S.sendError=false;
+  render();
+
+  const em=buildEmail();
+  const allFiles=[...S.w9,...S.w8,...S.bizCert,...S.contract,...S.addl];
+
+  try {
+    // Convert all files to base64 for attachment
+    const attachments=await Promise.all(allFiles.map(async f=>({
+      filename: f.name,
+      content:  await fileToBase64(f),
+      type:     f.type||'application/octet-stream',
+    })));
+
+    const res=await fetch('/.netlify/functions/send-email',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        to:          em.to,
+        cc:          em.cc,
+        reply_to:    S.yourEmail,
+        subject:     em.subject,
+        htmlBody:    em.htmlBody,
+        textBody:    em.textBody,
+        attachments,
+      }),
+    });
+
+    if(!res.ok){
+      const err=await res.text().catch(()=>'');
+      console.error('Send failed:',res.status,err);
+      throw new Error('Send failed');
+    }
+
+    S.submitted=true;
+    S.sending=false;
+  } catch(err){
+    console.error(err);
+    S.sending=false;
+    S.sendError=true;
+  }
+  render();
+}
+
+/* ── FORM HELPERS ── */
+function F(k,lbl,type,ph,req){
+  const e=S.errors[k]?`<div class="err">${S.errors[k]}</div>`:'';
+  const bs=S.errors[k]?'border-color:#f0a0a0;':'';
+  const rl=req?lbl+'<span class="req">*</span>':lbl;
+  return `<div class="fg"><label class="fl">${rl}</label><input type="${type}" data-k="${k}" value="${eh(S[k])}" placeholder="${ph||''}" style="${bs}" />${e}</div>`;
+}
+function TA(k,lbl,ph,req,rows){
+  const e=S.errors[k]?`<div class="err">${S.errors[k]}</div>`:'';
+  const rl=req?lbl+'<span class="req">*</span>':lbl;
+  return `<div class="fg"><label class="fl">${rl}</label><textarea data-k="${k}" rows="${rows||3}" placeholder="${ph||''}">${eh(S[k])}</textarea>${e}</div>`;
+}
+function UZ(k,lbl,files,multi){
+  const chips=files.map((f,i)=>`<span class="fchip">${eh(f.name)} <span style="color:var(--tx3)">(${fmtSize(f.size)})</span><span class="fx" onclick="rmf('${k}',${i})">×</span></span>`).join('');
+  return `<div class="fg">
+    <label class="fl">${lbl}</label>
+    <div class="uz" onclick="document.getElementById('fi_${k}').click()">
+      <input type="file" id="fi_${k}" ${multi?'multiple':''} onchange="af('${k}',this.files)" />
+      <div class="uztxt"><strong>Click to upload</strong> — any file type accepted</div>
+    </div>
+    ${files.length?`<div class="fchips">${chips}</div>`:''}
+  </div>`;
+}
+
+/* ── VALIDATION ── */
+function val(step){
+  const e={};
+  if(step===1){if(!S.yourName.trim())e.yourName='Required';if(!S.yourEmail.trim())e.yourEmail='Required';if(!S.yourDept.trim())e.yourDept='Required';if(!S.mgrName.trim())e.mgrName='Required';if(!S.mgrEmail.trim())e.mgrEmail='Required';}
+  if(step===2){
+    if(!S.vendorName.trim())e.vendorName='Vendor name is required';
+    if(!S.vendorCats.length)e.vendorCats='Select at least one category';
+    if(!S.vendorScope.trim())e.vendorScope='Required — describe what this vendor provides';
+    if(!S.vendorContext.trim())e.vendorContext='Required — explain the business reason for this setup';
+    if(!S.vtype)e.vtype='Please select vendor type to continue';
+    if(S.vtype==='us'){if(!S.usA1.trim())e.usA1='Required';if(!S.usCity.trim())e.usCity='Required';if(!S.usSt.trim())e.usSt='Required';if(!S.usZip.trim())e.usZip='Required';}
+    if(S.vtype==='intl'){if(!S.intlA1.trim())e.intlA1='Required';if(!S.intlCity.trim())e.intlCity='Required';if(!S.intlCountry.trim())e.intlCountry='Required';}
+  }
+  if(step===3){if(!S.corpName.trim())e.corpName='Required';if(!S.corpEmail.trim())e.corpEmail='Required';if(!S.sameContact){if(!S.finName.trim())e.finName='Required';if(!S.finEmail.trim())e.finEmail='Required';}}
+  if(step===5){
+    if(!S.terms)e.terms='Payment terms are required';
+    if(S.terms==='other'&&!S.otherTerms.trim())e.otherTerms='Required — describe the terms';
+    if(!S.urgency)e.urgency='Please indicate urgency level';
+    if(S.urgency==='urgent'&&!S.urgencyNote.trim())e.urgencyNote='Required — include timing, deadline, or business impact';
+  }
+  return e;
+}
+
+/* ── EMAIL BUILDER ── */
+function finContact(){return S.sameContact?{name:S.corpName,email:S.corpEmail,phone:S.corpPhone}:{name:S.finName,email:S.finEmail,phone:S.finPhone};}
+
+function buildAddr(){
+  if(S.vtype==='us')return `${S.usA1}${S.usA2?', '+S.usA2:''}, ${S.usCity}, ${S.usSt} ${S.usZip}, United States`;
+  return `${S.intlA1}${S.intlA2?', '+S.intlA2:''}, ${S.intlCity}${S.intlRegion?', '+S.intlRegion:''}${S.intlPostal?' '+S.intlPostal:''}, ${S.intlCountry}`;
+}
+
+function getMissing(){
+  const m=[];
+  if(!S.contract.length)m.push({cat:'Document',item:'Signed contract or engagement letter (countersigned by both parties)'});
+  if(S.vtype==='us'){if(!S.w9.length)m.push({cat:'Document',item:'W-9 (IRS Form — required for all US vendors)'});}
+  if(S.vtype==='intl'){
+    if(!S.w8.length)m.push({cat:'Document',item:'W-8BEN-E (IRS Form — vendor fills out and returns to Talus; required before Joanna can add vendor to Ramp)'});
+    if(!S.bizCert.length)m.push({cat:'Document',item:'Certificate of Incorporation or Good Standing (or local equivalent)'});
+
+  }
+  return m;
+}
+
+function buildEmail(){
+  const miss=getMissing();
+  const fin=finContact();
+  const ccList=[S.yourEmail,S.mgrEmail];
+  const needsP=S.terms==='other'||S.urgency==='urgent';
+  if(needsP)ccList.push('Patricia@talusag.com');
+  const allFiles=[...S.w9,...S.w8,...S.bizCert,...S.contract,...S.addl];
+  const tLbl={net30:'Net 30',net60:'Net 60',net90:'Net 90',other:`Other — ${S.otherTerms}`}[S.terms]||S.terms;
+  const catStr=S.vendorCats.map(c=>c==='Other'?`Other: ${S.vendorCatOther||'(unspecified)'}`:c).join(', ');
+  const addr=buildAddr();
+  const firstName=S.yourName.split(' ')[0];
+  const submissionDate=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  /* ── HTML EMAIL ──────────────────────────────── */
+  const s={
+    wrap:'font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Helvetica,Arial,sans-serif;font-size:14px;color:#1a1a1a;line-height:1.65;max-width:620px;margin:0 auto;padding:24px 16px;',
+    h:'font-size:13px;font-weight:700;color:#3B6D11;text-transform:uppercase;letter-spacing:.05em;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid #e0e0e0;',
+    row:'display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #f0f0f0;gap:8px;',
+    lbl:'color:#5a5a5a;flex:0 0 38%;',
+    val:'color:#1a1a1a;text-align:right;word-break:break-word;',
+    warn:'background:#fff9e6;border-left:3px solid #f0c040;padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;font-size:13px;color:#7a4f00;',
+    dng:'background:#fff0f0;border-left:3px solid #f0a0a0;padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;font-size:13px;color:#b91c1c;',
+    info:'background:#e8f4fd;border-left:3px solid #90c5ee;padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;font-size:13px;color:#1255a0;',
+    suc:'background:#f0fdf4;border-left:3px solid #86efac;padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;font-size:13px;color:#166534;',
+    chip:'display:inline-block;background:#f0f0f0;border-radius:4px;padding:2px 8px;font-size:12px;margin:2px;',
+    box:'background:#f7f7f5;border:1px solid #e0e0e0;border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;',
+    copybox:'background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;color:#1a1a1a;',
+  };
+
+  const row=(l,v)=>`<div style="${s.row}"><span style="${s.lbl}">${l}</span><span style="${s.val}">${eh(String(v||'—'))}</span></div>`;
+  const sec=(t)=>`<div style="${s.h}">${t}</div>`;
+
+  const urgBlock=S.urgency==='urgent'
+    ?`<div style="${s.dng}">🚨 <strong>URGENT REQUEST</strong><br/>Reason: ${eh(S.urgencyNote)}<br/>Patricia has been CC'd for visibility and prioritization.</div>`
+    :`<div style="${s.suc}">✅ Normal process — standard ~3 week timeline</div>`;
+
+  const termsBlock=S.terms==='other'
+    ?`${eh(tLbl)}<br/><div style="${s.warn}">⚠️ Non-standard terms require Patricia's approval. She has been CC'd.</div>`
+    :eh(tLbl);
+
+  const missBlock=miss.length
+    ?`<div style="${s.dng}"><strong>🔴 Outstanding items — ${miss.length} still needed</strong><br/><br/>
+      ${miss.map(m=>`&bull; <strong>${eh(m.cat)}:</strong> ${eh(m.item)}`).join('<br/>')}<br/><br/>
+      ${eh(firstName)} is CC'd as vendor owner and can help gather items they have access to. Joanna will collect the rest from the vendor's finance contact.
+    </div>`
+    :`<div style="${s.suc}">✅ All required documents and information provided</div>`;
+
+  /* Vendor contact copy-paste block */
+  const vendorCopyPaste=`<div style="${s.copybox}">
+    <strong style="display:block;margin-bottom:8px;">📋 What your vendor should expect — copy and paste this to send to ${eh(fin.name)}:</strong>
+    <div style="background:#fff;border:1px solid #c8e6c2;border-radius:6px;padding:12px;font-size:13px;line-height:1.7;color:#1a1a1a;">
+      Hi [vendor name],<br/><br/>
+      We've submitted your information to our AP team to get you set up in our payment system. Here's what to expect:<br/><br/>
+      <strong>Step 1 — Email from our AP team (AP@talusag.com)</strong><br/>
+      Joanna on our finance team will reach out to you directly to complete your vendor profile and collect any outstanding documents (such as a W-8BEN-E if you're an international vendor).<br/><br/>
+      <strong>Step 2 — Email from Ramp</strong><br/>
+      You'll receive a separate email from <strong>Ramp</strong> (our payment platform) with a secure link to enter your banking details directly. This step is required before we can issue any payments. Please complete it as soon as you receive it.<br/><br/>
+      <strong>Timeline:</strong> Normal setup takes approximately 3 weeks with prompt responses from your side. The faster you respond to both emails, the faster you're set up and able to invoice us.<br/><br/>
+      If you have questions, reply to the AP email from Joanna or reach out to me directly.<br/><br/>
+      Thank you — we're looking forward to working with you.
+    </div>
+  </div>`;
+
+  /* MaryJo action block */
+  const maryjoBlock=`${sec('👉 '+firstName.toUpperCase()+' — YOUR ACTION ITEMS')}
+  <div style="${s.box}">
+    <p style="margin:0 0 10px;">You're CC'd as the vendor owner. <strong>You are the most important variable in this timeline.</strong> Vendors who respond quickly almost always do so because the TalusAg team member followed up directly. Here's what you need to do:</p>
+    <ol style="margin:0 0 12px;padding-left:20px;line-height:1.8;">
+      ${miss.length?`<li><strong>Gather outstanding items</strong> — see the list above. If you have any of these documents, reply to this email with them now.</li>`:''}
+      <li><strong>Contact ${eh(fin.name)} directly</strong> — don't just wait for them to respond to Joanna. Let them know the request is legitimate and that two emails are coming: one from AP@talusag.com and one from Ramp. Ask them to action both.</li>
+      <li><strong>Forward the copy-paste message below</strong> to ${eh(fin.name)} so they know exactly what to expect.</li>
+      <li><strong>Follow up</strong> if you don't hear back within 2–3 business days. Vendor non-response is the #1 reason setups take longer than 3 weeks.</li>
+    </ol>
+    <p style="margin:0;color:#5a5a5a;font-size:12px;">📌 Normal turnaround: ~3 weeks. Your follow-up is the biggest lever you have.</p>
+  </div>
+  ${vendorCopyPaste}`;
+
+  const htmlBody=`<!DOCTYPE html><html><body style="${s.wrap}">
+  <p style="margin:0 0 16px;">Hi AP team,</p>
+  <p style="margin:0 0 20px;">${eh(S.yourName)} (${eh(S.yourDept)}) has submitted a new vendor onboarding request.</p>
+
+  ${sec('Vendor overview')}
+  ${row('Company',S.vendorName)}
+  ${row('Website',S.vendorSite||'(not provided)')}
+  ${row('Category',catStr)}
+  ${row('Billing address',addr)}
+  ${row('Vendor type',S.vtype==='us'?'US Vendor':'International Vendor')}
+  <div style="margin:10px 0;font-size:13px;"><strong>Scope of work:</strong><br/><span style="color:#3a3a3a;">${eh(S.vendorScope)}</span></div>
+  <div style="margin:10px 0;font-size:13px;"><strong>Business context / reason for setup:</strong><br/><span style="color:#3a3a3a;">${eh(S.vendorContext)}</span></div>
+
+  ${sec('Contacts')}
+  ${row('Requestor',`${S.yourName} — ${S.yourEmail}`)}
+  ${row('Department',S.yourDept)}
+  ${row('Manager',`${S.mgrName} — ${S.mgrEmail}`)}
+  ${row('Vendor corporate contact',`${S.corpName} — ${S.corpEmail}${S.corpPhone?' — '+S.corpPhone:''}`)}
+  ${row('Vendor finance/AP contact',`${fin.name} — ${fin.email}${fin.phone?' — '+fin.phone:''}${S.sameContact?' (same as corporate)':''}`)}
+
+  ${sec('Payment & urgency')}
+  ${row('Payment terms',termsBlock)}
+  ${urgBlock}
+  ${S.comments?`<div style="margin:10px 0;font-size:13px;"><strong>Additional notes:</strong><br/>${eh(S.comments)}</div>`:''}
+
+  ${sec(`Documents (${allFiles.length} attached)`)}
+  ${allFiles.length
+    ?allFiles.map(f=>`<span style="${s.chip}">📎 ${eh(f.name)} (${fmtSize(f.size)})</span>`).join(' ')
+    :'<span style="color:#909090;font-size:13px;">(none attached)</span>'}
+
+  ${missBlock}
+
+  ${maryjoBlock}
+
+  ${sec('Next steps — Joanna')}
+  <div style="${s.box}">
+    <ol style="margin:0;padding-left:20px;line-height:1.8;">
+      <li>Reach out to <strong>${eh(fin.name)}</strong> at <strong>${eh(fin.email)}</strong> to begin vendor setup and collect any outstanding items.</li>
+      <li>Ramp will send <strong>${eh(fin.name)}</strong> a separate email with a secure link to enter banking details directly. This is vendor-side only — TalusAg does not enter or hold vendor banking information.</li>
+    </ol>
+    ${needsP?`<p style="margin:12px 0 0;font-size:13px;color:#7a4f00;">⚠️ Patricia is CC'd — non-standard payment terms and/or urgent request.</p>`:''}
+  </div>
+
+  </body></html>`;
+
+  /* ── PLAIN TEXT (fallback) ── */
+  const textBody=`Hi AP team,
+
+${S.yourName} (${S.yourDept}) submitted a new vendor onboarding request.
+
+VENDOR OVERVIEW
+Company: ${S.vendorName}
+Website: ${S.vendorSite||'(not provided)'}
+Category: ${catStr}
+Billing: ${addr}
+Type: ${S.vtype==='us'?'US Vendor':'International Vendor'}
+Scope: ${S.vendorScope}
+Context: ${S.vendorContext}
+
+CONTACTS
+Requestor: ${S.yourName} | ${S.yourEmail} | ${S.yourDept}
+Manager: ${S.mgrName} | ${S.mgrEmail}
+Corporate: ${S.corpName} | ${S.corpEmail}${S.corpPhone?' | '+S.corpPhone:''}
+Finance/AP: ${fin.name} | ${fin.email}${fin.phone?' | '+fin.phone:''}${S.sameContact?' (same as corporate)':''}
+
+PAYMENT & URGENCY
+Terms: ${tLbl}${S.terms==='other'?'\nNOTE: Non-standard terms — Patricia approval required. She is CC\'d.':''}
+Urgency: ${S.urgency==='urgent'?'URGENT — '+S.urgencyNote:'Normal process (~3 weeks)'}
+${S.comments?'Notes: '+S.comments:''}
+
+DOCUMENTS (${allFiles.length} attached)
+${allFiles.length?allFiles.map(f=>'• '+f.name+' ('+fmtSize(f.size)+')').join('\n'):'(none)'}
+
+${miss.length?`OUTSTANDING ITEMS (${miss.length})\n${miss.map(m=>'[ ] '+m.cat+': '+m.item).join('\n')}\n`:'All documents provided.'}
+
+${firstName.toUpperCase()} — YOUR ACTION ITEMS
+You're CC'd as vendor owner. Contact ${fin.name} directly, let them know two emails are coming (from AP@talusag.com and from Ramp), and ask them to action both promptly. Follow up within 2-3 days if no response.
+
+NEXT STEPS — JOANNA
+1. Reach out to ${fin.name} at ${fin.email} to begin setup.
+2. Ramp will send ${fin.name} a separate link to enter banking details.
+${needsP?'Patricia is CC\'d — non-standard terms or urgent request.':''}
+
+Submitted ${submissionDate}.`;
+
+  return{
+    to:'AP@talusag.com',
+    cc:ccList.join(', '),
+    subject:`New Vendor Request: ${S.vendorName}`,
+    htmlBody, textBody,
+    allFiles, miss, needsP,
+
+  };
+}
+
+function pr(){return `<div class="prog">${Array.from({length:S.total},(_,i)=>`<div class="ps ${i+1<S.step?'done':i+1===S.step?'act':''}"></div>`).join('')}</div>`;}
+const TTLS=['About you','Vendor info & scope','Contacts','Documents & banking','Terms & urgency','Review & submit'];
+const SSUB=['Your details and your manager — both will appear on the submission email.','Vendor basics, scope, category, and billing address.','The contacts we need at the vendor — corporate and finance/AP.','Upload what you have — anything missing will be flagged for the AP team and for you.','Payment terms, urgency, and final notes.','Confirm everything before submitting.'];
+function hdr(){return `${pr()}<div class="eyb">STEP ${S.step} OF ${S.total}</div><div class="stit">${TTLS[S.step-1]}</div><p class="ssub">${SSUB[S.step-1]}</p>`;}
+
+/* ── STEP 1 ── */
+function r1(){if(!S.mgrUsersLoaded)loadDirectory();return hdr()+`
+  <div class="card"><div class="slbl">Your information</div>
+    ${F('yourName','Full name','text','First Last',true)}
+    ${F('yourEmail','Work email','email','you@talusag.com',true)}
+    ${F('yourDept','Department','text','e.g. Engineering, Operations, Finance',true)}
+  </div>
+  <div class="card"><div class="slbl">Your manager</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Your manager will be CC'd on the submission email. ${S.mgrDirectoryMode?'Search the TalusAg directory below.':'Enter their name and email.'}</p>
+    ${S.mgrDirectoryMode ? `
+    <div class="fg">
+      <label class="fl">Search for your manager<span class="req">*</span></label>
+      <div style="position:relative;">
+        <input type="text" placeholder="Start typing a name..." value="${eh(S.mgrSearch)}" oninput="onMgrSearch(this.value)" onblur="setTimeout(()=>{S.mgrDropOpen=false;render();},180)" autocomplete="off" style="${S.errors.mgrName?'border-color:#f0a0a0;':''}" />
+        ${S.mgrDropOpen && filteredManagers().length ? `
+        <div style="position:absolute;left:0;right:0;top:100%;background:var(--bg);border:0.5px solid var(--ga);border-top:none;border-radius:0 0 var(--r-md) var(--r-md);z-index:50;max-height:220px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.12);">
+          ${filteredManagers().map(u=>`<div onclick="selectMgr('${u.name.replace(/'/g,"\\'")}','${u.email}','${(u.title||'').replace(/'/g,"\\'")}');" style="padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:0.5px solid var(--bd3);" onmouseover="this.style.background='var(--gl)'" onmouseout="this.style.background=''"><strong>${eh(u.name)}</strong><span style="color:var(--tx3);margin-left:8px;font-size:12px;">${eh(u.email)}</span>${u.title?`<span style="color:var(--tx3);font-size:11px;display:block;">${eh(u.title)}</span>`:''}</div>`).join('')}
+        </div>` : ''}
+      </div>
+      ${S.mgrName ? `<div style="font-size:12px;color:var(--gd);margin-top:5px;font-weight:500;">Selected: ${eh(S.mgrName)} — ${eh(S.mgrEmail)}</div>` : '<div class="hint">Type a name to search the TalusAg employee directory</div>'}
+      ${S.errors.mgrName?`<div class="err">${S.errors.mgrName}</div>`:''}
+    </div>` : `
+    <div class="fg">
+      <label class="fl">Manager's full name<span class="req">*</span></label>
+      <input type="text" data-k="mgrName" value="${eh(S.mgrName)}" placeholder="First Last" oninput="onMgrNameInput(this.value)" onblur="render()" style="${S.errors.mgrName?'border-color:#f0a0a0;':''}" />
+      ${S.errors.mgrName?`<div class="err">${S.errors.mgrName}</div>`:''}
+    </div>
+    <div class="fg">
+      <label class="fl">Manager's email<span class="req">*</span></label>
+      <input id="mgrEmailField" type="email" data-k="mgrEmail" value="${eh(S.mgrEmail)}" placeholder="manager@talusag.com" class="${S.mgrEmailAutoFilled&&S.mgrEmail?'autofilled':''}" oninput="onMgrEmailInput(this.value)" onblur="render()" />
+      <div id="mgrHint" class="hint" style="${S.mgrEmailAutoFilled&&S.mgrEmail?'':'display:none;'}">Auto-suggested — update if their email is different</div>
+      ${S.errors.mgrEmail?`<div class="err">${S.errors.mgrEmail}</div>`:''}
+    </div>`}
+  </div>
+  <div class="nav"><span></span><button class="btnp" onclick="nxt()">Continue →</button></div>`;}
+
+/* ── STEP 2 ── */
+function r2(){
+  const verr=S.errors.vtype?`<div class="err" style="margin-top:6px;">${S.errors.vtype}</div>`:'';
+  const cerr=S.errors.vendorCats?`<div class="err">${S.errors.vendorCats}</div>`:'';
+  const catPills=CATS.map(c=>`<span class="pill ${S.vendorCats.includes(c)?'on':''}" onclick="toggleCat('${c}')">${c}</span>`).join('');
+  const showOther=S.vendorCats.includes('Other');
+  const addrUS=`<div class="card" style="margin-top:10px;"><div class="slbl">Billing address — US</div>
+    ${F('usA1','Address line 1','text','123 Main St',true)}${F('usA2','Address line 2','text','Suite, floor, etc. (optional)',false)}
+    <div class="frow">${F('usCity','City','text','',true)}${F('usSt','State','text','e.g. IL',true)}</div>
+    ${F('usZip','ZIP code','text','',true)}</div>`;
+  const addrIntl=`<div class="card" style="margin-top:10px;"><div class="slbl">Billing address — international</div>
+    ${F('intlA1','Address line 1','text','Street address',true)}${F('intlA2','Address line 2','text','Unit, floor, etc. (optional)',false)}
+    <div class="frow">${F('intlCity','City','text','',true)}${F('intlRegion','Region / Province','text','If applicable (optional)',false)}</div>
+    <div class="frow">${F('intlPostal','Postal code','text','If applicable (optional)',false)}${F('intlCountry','Country','text','',true)}</div></div>`;
+  const addrPh=`<div style="border:1.5px dashed #ddd;border-radius:8px;padding:16px;margin-top:10px;text-align:center;"><p style="font-size:13px;font-style:italic;color:#aaa;">Select vendor type above to continue with billing address.</p></div>`;
+  return hdr()+`
+  <div class="card"><div class="slbl">Vendor company</div>
+    ${F('vendorName','Company / vendor name (legal name)','text','Legal name on contract',true)}
+    ${F('vendorSite','Company website','url','https:// (optional)',false)}
+  </div>
+  <div class="card"><div class="slbl">What does this vendor provide?</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Select all that apply.</p>
+    <div>${catPills}</div>${cerr}
+    ${showOther?`<div style="margin-top:10px;">${F('vendorCatOther','Describe the "other" category','text','',false)}</div>`:''}
+  </div>
+  <div class="card"><div class="slbl">Scope of work</div>
+    ${TA('vendorScope','What does this vendor do and what are they providing to Talus?','Be specific — e.g. "Monthly structural engineering review for our Kenya site" or "Supply of solar panels for Project X"',true,3)}
+  </div>
+  <div class="card"><div class="slbl">Business context &amp; reason for setup</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Help the AP team and Hiro prioritize and approve. The more detail, the faster this moves.</p>
+    ${TA('vendorContext','Why does this vendor need to be set up now? What is at stake?','e.g. "Services have been rendered — ready to invoice on delivery confirmation" / "Vendor requires 50% upfront before work begins" / "Equipment shipment on hold pending payment — needed on site by [date]" / "Contract go-live blocked until AP is established"',true,4)}
+  </div>
+  <div class="card"><div class="slbl">Vendor type</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Determines billing address format and required documents.</p>
+    <div class="tgrid">
+      <label class="tcard ${S.vtype==='us'?'sel':''}"><input type="radio" name="vt" value="us" ${S.vtype==='us'?'checked':''} onchange="upd('vtype','us')" /><div class="tcttl">US Vendor</div><div class="tcsub">W-9 required. Banking collected via Ramp.</div></label>
+      <label class="tcard ${S.vtype==='intl'?'sel':''}"><input type="radio" name="vt" value="intl" ${S.vtype==='intl'?'checked':''} onchange="upd('vtype','intl')" /><div class="tcttl">International Vendor</div><div class="tcsub">SWIFT, IBAN, VAT/Tax ID, and compliance docs. Fill in what you have.</div></label>
+    </div>${verr}
+  </div>
+  ${S.vtype==='us'?addrUS:S.vtype==='intl'?addrIntl:addrPh}
+  <div class="nav"><button class="btnb" onclick="bk()">← Back</button><button class="btnp" onclick="nxt()">Continue →</button></div>`;}
+
+/* ── STEP 3 ── */
+function r3(){return hdr()+`
+  <div class="card"><div class="slbl">Corporate contact</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Main business contact at the vendor company.</p>
+    ${F('corpName','Full name','text','',true)}
+    <div class="frow">${F('corpEmail','Email','email','',true)}${F('corpPhone','Phone','tel','(optional)',false)}</div>
+  </div>
+  <div class="card"><div class="slbl">Finance / AP contact</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">This person will receive the setup email from Joanna and a separate email from Ramp to enter banking details.</p>
+    <label class="samebox ${S.sameContact?'checked':''}" onclick="toggleSame()">
+      <input type="checkbox" ${S.sameContact?'checked':''} onchange="" />
+      Finance / AP contact is the same person as the corporate contact above
+    </label>
+    ${S.sameContact
+      ?`<div class="info-b">The corporate contact's details will be used for all finance communications.</div>`
+      :`${F('finName','Full name','text','',true)}<div class="frow">${F('finEmail','Email','email','',true)}${F('finPhone','Phone','tel','(optional)',false)}</div>`}
+  </div>
+  <div class="nav"><button class="btnb" onclick="bk()">← Back</button><button class="btnp" onclick="nxt()">Continue →</button></div>`;}
+
+/* ── STEP 4 ── */
+function r4(){
+  const isUS=S.vtype==='us';
+  const sizeMB=(totalFileSize()/(1024*1024)).toFixed(1);
+  const sizeWarn=totalFileSize()>15*1024*1024
+    ?`<div class="dng-b" style="margin-bottom:10px;">Total file size is ${sizeMB} MB — please keep attachments under 20 MB combined to ensure delivery.</div>`:
+    totalFileSize()>0?`<p class="size-warn">Total uploaded: ${sizeMB} MB</p>`:'';
+  const w8Sec=`<div class="w8box">
+    <div class="w8box-ttl">What is the W-8BEN-E and what do you need to do?</div>
+    <ul class="w8-steps">
+      <li data-n="1.">Download the blank form from the IRS using the link below.</li>
+      <li data-n="2.">Forward it to your vendor's finance contact — they fill it out, not you.</li>
+      <li data-n="3.">They sign it and return it to you (it comes to Talus, not to the IRS).</li>
+      <li data-n="4.">Upload the completed, signed form here — or reply to the AP email thread with it when you have it.</li>
+    </ul>
+    <a class="w8-link" href="https://www.irs.gov/forms-pubs/about-form-w-8-ben-e" target="_blank">Download W-8BEN-E from IRS.gov →</a>
+    <p class="w8-note">Don't have it today? That's okay — you can submit it later by replying to the email thread this form generates. Just know that AP cannot add this vendor to Ramp until the completed W-8BEN-E is on file. The sooner your vendor returns it, the sooner setup can finish.<br/><br/>This form certifies the vendor's foreign status and is valid for 3 years once signed. If your vendor has never heard of it, that's completely normal — many smaller international companies haven't. The IRS page above has plain-language instructions you can forward to them.</p>
+  </div>
+  ${UZ('w8','Upload completed W-8BEN-E (signed by vendor)',S.w8,false)}`;
+  return hdr()+`
+  <div class="warn-b" style="margin-bottom:12px;margin-top:0;">Fill in as much as you can — nothing on this page blocks submission. Every blank field or missing document will be clearly flagged in the outbound email so Joanna and you both know what still needs to be gathered.</div>
+  ${isUS?`
+  <div class="card"><div class="slbl">US vendor document</div>
+    ${UZ('w9','W-9 (IRS Form, signed)',S.w9,false)}
+    <div class="info-b" style="margin-top:10px;"><strong>Banking details are not collected here.</strong><br/><br/>Once this form is submitted, the vendor's finance contact will receive a direct email from <strong>Ramp</strong> (TalusAg's payment platform) with a secure link to enter their ACH or wire transfer details directly. TalusAg does not collect, enter, or store vendor banking information at any point in this process.<br/><br/>Let your vendor contact know to watch for the Ramp email — it sometimes lands in spam. They must complete that step before any payments can be issued.</div>
+  </div>`:`
+  <div class="card"><div class="slbl">Banking information</div>
+    <div class="info-b" style="margin-top:0;">
+      <strong>Banking details are not collected here.</strong><br/><br/>
+      Once this form is submitted, the vendor's finance contact will receive a direct email from <strong>Ramp</strong> with a secure link to enter their own banking details. TalusAg does not collect, store, or have access to vendor banking information at any point in this process.<br/><br/>
+      <strong>Important:</strong> TalusAg is not liable for any errors in banking details entered directly by the vendor into Ramp. It is the vendor's responsibility to ensure their information is correct.
+    </div>
+  </div>
+  <div class="card"><div class="slbl">International compliance documents</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:12px;">Upload what you have. Both are standard US procurement requirements for international vendors — anything missing will be flagged and can be submitted later via the AP email thread.</p>
+    ${w8Sec}
+    <div style="margin-top:14px;">${UZ('bizCert','Certificate of Incorporation or Good Standing (or local equivalent)',S.bizCert,false)}</div>
+  </div>`}
+  <div class="card"><div class="slbl">Signed contract</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Countersigned by both parties. Engagement letters acceptable if scope and billing are confirmed.</p>
+    ${UZ('contract','Signed contract or engagement letter',S.contract,false)}
+  </div>
+  <div class="card"><div class="slbl">Additional documents</div>
+    ${UZ('addl','SOW, amendments, insurance certs, or any other supporting documents (optional)',S.addl,true)}
+    ${sizeWarn}
+  </div>
+  <div class="nav"><button class="btnb" onclick="bk()">← Back</button><button class="btnp" onclick="nxt()">Continue →</button></div>`;}
+
+/* ── STEP 5 ── */
+function r5(){
+  const needsP=S.terms==='other'||S.urgency==='urgent';
+  const te=S.errors.terms?`<div class="err">${S.errors.terms}</div>`:'';
+  const ue=S.errors.urgency?`<div class="err">${S.errors.urgency}</div>`:'';
+  return hdr()+`
+  <div class="card"><div class="slbl">Payment terms</div>
+    <div>${['net30','net60','net90','other'].map(t=>`<span class="pill ${S.terms===t?'on':''}" onclick="upd('terms','${t}')">${{net30:'Net 30',net60:'Net 60',net90:'Net 90',other:'Other'}[t]}</span>`).join('')}</div>${te}
+    ${S.terms==='other'?`<div style="margin-top:12px;">${TA('otherTerms','Describe the payment terms','e.g. 50% upfront before work begins / faster than Net 30 required because...',true,3)}<div class="warn-b">Non-standard terms require Patricia\'s approval — she will be CC\'d automatically.</div></div>`:''}
+  </div>
+  <div class="card"><div class="slbl">Request urgency</div>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:12px;">Normal process is ~3 weeks. As the vendor owner, you can push the vendor to respond to Joanna and complete Ramp's banking step — that's the biggest lever on timeline.</p>
+    <div class="tgrid">
+      <label class="ucard ${S.urgency==='normal'?'sn':''}"><input type="radio" name="urg" value="normal" ${S.urgency==='normal'?'checked':''} onchange="upd('urgency','normal')" /><div class="ucttl">Normal process is fine</div><div class="ucsub">Standard ~3 week timeline.</div></label>
+      <label class="ucard ${S.urgency==='urgent'?'su':''}"><input type="radio" name="urg" value="urgent" ${S.urgency==='urgent'?'checked':''} onchange="upd('urgency','urgent')" /><div class="ucttl">Needs urgent attention</div><div class="ucsub">Patricia will be CC'd. Reason required.</div></label>
+    </div>${ue}
+    ${S.urgency==='urgent'?`<div style="margin-top:12px;">${TA('urgencyNote','Why is this urgent?','Include context on timing, deadline, or business impact — e.g. project go-live date, equipment held at port, contract milestone, site dependency...',true,3)}<div class="dng-b">Patricia will be CC'd for visibility and prioritization.</div></div>`:''}
+  </div>
+  ${needsP?`<div class="warn-b">Patricia (Patricia@talusag.com) will be CC'd based on your selections above.</div>`:''}
+  <div class="card"><div class="slbl">Additional comments</div>
+    ${TA('comments','Anything else the AP team should know','Scope context, relationship notes, special instructions — optional.',false,3)}
+  </div>
+  <div class="nav"><button class="btnb" onclick="bk()">← Back</button><button class="btnp" onclick="nxt()">Review →</button></div>`;}
+
+/* ── STEP 6 ── */
+function r6(){
+  const em=buildEmail();
+  const fin=finContact();
+  const allFiles=[...S.w9,...S.w8,...S.bizCert,...S.contract,...S.addl];
+  const tLbl={net30:'Net 30',net60:'Net 60',net90:'Net 90',other:`Other — ${S.otherTerms}`}[S.terms]||S.terms;
+  const catStr=S.vendorCats.map(c=>c==='Other'?`Other: ${S.vendorCatOther||'(unspecified)'}`:c).join(', ');
+  const btnLabel=S.sending?`<span class="spinner"></span>Sending...`:'Submit request';
+  return hdr()+`
+  ${em.miss.length?`<div class="warn-b" style="margin-bottom:12px;"><strong>Outstanding items (${em.miss.length}):</strong><br/><br/>${em.miss.map(m=>`• ${m.cat}: ${m.item}`).join('<br/>')}<br/><br/>You can still submit — these will be flagged in the email.</div>`:`<div class="suc-b" style="margin-bottom:12px;">All required documents and information provided.</div>`}
+  ${S.sendError?`<div class="dng-b" style="margin-bottom:12px;">Something went wrong. Please try again, or email AP@talusag.com directly and CC your manager.</div>`:''}
+  <div class="card"><div class="slbl">Requestor</div>
+    <div class="rrow"><span class="rlbl">Name</span><span class="rval">${eh(S.yourName)}</span></div>
+    <div class="rrow"><span class="rlbl">Email</span><span class="rval">${eh(S.yourEmail)}</span></div>
+    <div class="rrow"><span class="rlbl">Department</span><span class="rval">${eh(S.yourDept)}</span></div>
+    <div class="rrow"><span class="rlbl">Manager</span><span class="rval">${eh(S.mgrName)} — ${eh(S.mgrEmail)}</span></div>
+  </div>
+  <div class="card"><div class="slbl">Vendor</div>
+    <div class="rrow"><span class="rlbl">Company</span><span class="rval">${eh(S.vendorName)}</span></div>
+    <div class="rrow"><span class="rlbl">Category</span><span class="rval">${eh(catStr)}</span></div>
+    <div class="rrow"><span class="rlbl">Type</span><span class="rval">${S.vtype==='us'?'US Vendor':'International Vendor'}</span></div>
+    <div class="rrow"><span class="rlbl">Billing</span><span class="rval">${eh(buildAddr())}</span></div>
+    <div class="rrow"><span class="rlbl">Corporate contact</span><span class="rval">${eh(S.corpName)}</span></div>
+    <div class="rrow"><span class="rlbl">Finance contact</span><span class="rval">${S.sameContact?`${eh(S.corpName)} (same as corporate)`:eh(fin.name)+' — '+eh(fin.email)}</span></div>
+  </div>
+  <div class="card"><div class="slbl">Terms & urgency</div>
+    <div class="rrow"><span class="rlbl">Payment terms</span><span class="rval">${eh(tLbl)}</span></div>
+    <div class="rrow"><span class="rlbl">Urgency</span><span class="rval">${S.urgency==='urgent'?'<span class="badge bd">URGENT</span>':'<span class="badge bo">Normal</span>'}</span></div>
+    ${S.urgency==='urgent'?`<div class="rrow"><span class="rlbl">Urgency reason</span><span class="rval">${eh(S.urgencyNote)}</span></div>`:''}
+  </div>
+  <div class="card"><div class="slbl">Documents (${allFiles.length} will be attached)</div>
+    ${allFiles.length?allFiles.map(f=>`<div class="rrow"><span class="rlbl">File</span><span class="rval">${eh(f.name)} — ${fmtSize(f.size)}</span></div>`).join(''):`<p style="font-size:13px;color:var(--tx3);">No files uploaded — outstanding items will be flagged in email.</p>`}
+  </div>
+  <div class="card"><div class="slbl">Email routing</div>
+    <div class="rrow"><span class="rlbl">To</span><span class="rval">${eh(em.to)}</span></div>
+    <div class="rrow"><span class="rlbl">CC</span><span class="rval">${eh(em.cc)}</span></div>
+    <div class="rrow"><span class="rlbl">Subject</span><span class="rval">${eh(em.subject)}</span></div>
+    ${em.needsP?`<div style="margin-top:8px;"><span class="badge bw">Patricia CC'd</span></div>`:''}
+  </div>
+  <div class="nav">
+    <button class="btnb" onclick="bk()" ${S.sending?'disabled':''}>← Back</button>
+    <button class="btnp" style="padding:12px 32px;font-size:15px;" onclick="sub()" ${S.sending?'disabled':''}>${btnLabel}</button>
+  </div>`;}
+
+/* ── SUCCESS ── */
+function rDone(){
+  const fin=finContact();
+  return `<div style="text-align:center;padding:2rem 0 1.5rem;">
+    <div class="sring">✓</div>
+    <div style="font-size:22px;font-weight:600;color:var(--tx1);margin-bottom:8px;">Request submitted</div>
+    <div style="font-size:14px;color:var(--tx2);max-width:400px;margin:0 auto;line-height:1.6;">Your request for <strong>${eh(S.vendorName)}</strong> has been sent to AP@talusag.com with all attached documents. Joanna will reach out to <strong>${eh(fin.name)}</strong> to begin setup.</div>
+  </div>
+  <div style="margin:1.5rem 0;border-top:0.5px solid #eee;"></div>
+  <div style="text-align:center;">
+    <p style="font-size:13px;color:var(--tx3);margin-bottom:1rem;">Need to submit another vendor?</p>
+    <button class="btnb" onclick="rst()">Start a new request</button>
+  </div>`;}
+
+function rst(){
+  Object.assign(S,{step:1,errors:{},sending:false,sendError:false,submitted:false,yourName:'',yourEmail:'',yourDept:'',mgrName:'',mgrEmail:'',mgrEmailAutoFilled:false,mgrDirectoryMode:false,mgrUsers:[],mgrUsersLoaded:false,mgrSearch:'',mgrDropOpen:false,vendorName:'',vendorSite:'',vendorCats:[],vendorCatOther:'',vendorScope:'',vendorContext:'',vtype:'',usA1:'',usA2:'',usCity:'',usSt:'',usZip:'',intlA1:'',intlA2:'',intlCity:'',intlRegion:'',intlPostal:'',intlCountry:'',corpName:'',corpEmail:'',corpPhone:'',sameContact:false,finName:'',finEmail:'',finPhone:'',w9:[],w8:[],bizCert:[],contract:[],addl:[],terms:'',otherTerms:'',urgency:'',urgencyNote:'',comments:''});
+  render();
+}
+
+function render(){
+  document.getElementById('va').innerHTML=S.submitted?rDone():[r1,r2,r3,r4,r5,r6][S.step-1]();
+}
+render();
+</script>
+</body>
+</html>
